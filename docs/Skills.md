@@ -38,3 +38,16 @@
   - Frontend (UI)
 - **Punti Deboli:**
   - databases
+
+## Giorgio
+
+- **Linguaggi e Tecnologie:**
+  - MERN
+  - Bootstrap
+  - Tailwind
+  - GSAP
+- **Preferenze:**
+  - Frontend (UI)
+- **Punti Deboli:**
+  - BE
+  - databases
