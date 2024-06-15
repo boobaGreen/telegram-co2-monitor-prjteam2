@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../Header/Header';
+import Loading from '../Loading/Loading'; 
+
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('telegram_user');
+    console.log('Stored user:', storedUser); 
+    if (!storedUser) {
+      navigate('/');
+    } else {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        console.log('Parsed user:', parsedUser); 
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Failed to parse user data:', error);
+        navigate('/');
+      }
+    }
+  }, [navigate]);
+
+  if (!user) {
+    return <Loading />; 
+  }
+
+
   const handle1MonthButtonClick = () => {
     navigate('/estimatedemissions');
   };
@@ -15,6 +44,20 @@ const Dashboard = () => {
         className="absolute inset-0 w-full h-full object-cover z-0"
         aria-hidden="true"
       />
+
+
+      <Header />
+
+      <main className="relative flex flex-col items-center justify-center md:pt-0 pt-0">
+        <h1 className="font-poppins text-3xl font-bold text-center bg-yellow-400 text-green-800 py-3 px-4 shadow-lg">
+          Emissions Impact Dashboard
+        </h1>
+        
+        <p className="font-body text-xl text-shadow text-bold text-green-900 mb-6 mt-4 text-center">
+          Track your emissions related to your Telegram services usage
+        </p>
+        <div className="flex flex-col items-center space-y-3 w-full px-4 mb-8">
+
       <header className="relative w-full z-10">
         <div className="w-full h-82 md:h-60">
           <img
@@ -61,14 +104,12 @@ const Dashboard = () => {
               className="absolute left-2 w-6 h-6"
               aria-hidden="true"
             />
-
-            3 Months
+       3 Months
           </button>
           <button
             className="relative w-full max-w-xs bg-yellow-400 text-green-800 font-body py-2 px-4 rounded border-2 border-green-800 shadow-md hover:bg-yellow-500 flex items-center justify-center"
             aria-label="Track emissions for 6 months"
           >
-
             <img
               src={`${process.env.PUBLIC_URL}/icon.png`}
               alt=""
